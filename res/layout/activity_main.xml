@@ -1,0 +1,18 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="turkycat.productions.MainActivity"
+    android:background="@color/blue"
+    tools:ignore="MergeRootFrame" >
+
+    <ImageView
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/button_title"
+        android:onClick="PlayAudio"
+        android:src="@drawable/td4w" />
+
+</FrameLayout>
