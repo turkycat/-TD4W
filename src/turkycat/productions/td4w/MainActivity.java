@@ -42,7 +42,7 @@ public class MainActivity extends Activity
 	 * callback method invoked from the framework when the button is pressed.
 	 * 	this is defined in the XML, and is handled by the XML inflator
 	 */
-	public void PlayAudio( View view )
+	public synchronized void PlayAudio( View view )
 	{	
 		ImageView button = (ImageView) view.findViewById( R.id.button );
 		button.startAnimation( push );
