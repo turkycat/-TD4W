@@ -57,9 +57,14 @@ public class MainActivity extends Activity
 			player.prepare();
 			player.seekTo( 0 );
 		}
-		catch( IllegalStateException | IOException e )
+		catch( IllegalStateException e )
 		{
 			// nothing to do
+			e.printStackTrace();
+		}
+		catch( IOException e )
+		{
+			//nothing to do
 			e.printStackTrace();
 		}
 
