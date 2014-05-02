@@ -21,41 +21,29 @@ public class TD4WAppWidget extends AppWidgetProvider
 	@Override
 	public void onUpdate( Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds )
 	{
-		//final int N = appWidgetIds.length;
+		//create an intent to launch our own class as the receiver
+		Intent intent = new Intent( context, TD4WAppWidget4.class );
 
-		// Perform this loop procedure for each App Widget that belongs to this
-		// provider
-		//for( int i = 0; i < N; i++ )
-		//{
-			//int appWidgetId = appWidgetIds[i];
+		//set the action to a string, in this case we have self-defined a unique string for our unique event
+		intent.setAction( ACTION_WIDGET_RECEIVER );
 
-			// Create an Intent to launch ExampleActivity
-			Intent intent = new Intent( context, TD4WAppWidget.class );
-			// PendingIntent pendingIntent = PendingIntent.getActivity(context,
-			// 0,
-			// intent, 0);
+		//get a broadcast event
+		PendingIntent pendingIntent = PendingIntent.getBroadcast( context, 0, intent, 0 );
 
-			intent.setAction( ACTION_WIDGET_RECEIVER );
+		//retrieve the views
+		RemoteViews views = new RemoteViews( context.getPackageName(), R.layout.widget_xml );
 
-			PendingIntent pendingIntent = PendingIntent.getBroadcast( context, 0, intent, 0 );
+		//set the broadcast intent to the button
+		views.setOnClickPendingIntent( R.id.button, pendingIntent );
 
-			// Get the layout for the App Widget and attach an on-click listener
-			// to the button
-			RemoteViews views = new RemoteViews( context.getPackageName(), R.layout.widget_xml );
-
-			views.setOnClickPendingIntent( R.id.button, pendingIntent );
-
-			// Tell the AppWidgetManager to perform an update on the current app
-			// widget
-			appWidgetManager.updateAppWidget( appWidgetIds, views );
-		//}
+		//tell the AppWidgetManager to perform an update on the current app
+		appWidgetManager.updateAppWidget( appWidgetIds, views );
 	}
 
 	@Override
 	public void onReceive( Context context, Intent intent )
 	{
-
-		// v1.5 fix that doesn't call onDelete Action
+		/** begin code straight from stack overflow **/
 
 		final String action = intent.getAction();
 
@@ -74,6 +62,8 @@ public class TD4WAppWidget extends AppWidgetProvider
 				this.onDeleted( context, new int[] { appWidgetId } );
 			}
 		}
+
+		/** YAY BACK TO (MOSTLY) OUR CODE! **/
 		else
 		{
 
@@ -84,7 +74,6 @@ public class TD4WAppWidget extends AppWidgetProvider
 
 				// check to see if media player is going. Stops it and releases
 				// if so.
-
 				if( mediaPlayer != null )
 				{
 					mediaPlayer.stop();
@@ -106,13 +95,11 @@ public class TD4WAppWidget extends AppWidgetProvider
 					// do nothing
 				}
 
-				// tell media players to start the sound.
 				mediaPlayer.start();
 
 			}
 
 			super.onReceive( context, intent );
 		}
-
 	}
 }
