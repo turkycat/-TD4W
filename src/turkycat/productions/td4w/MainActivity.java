@@ -15,6 +15,8 @@ public class MainActivity extends Activity
 {
 	private MediaPlayer player;
 	private Animation push;
+	private AssetFileDescriptor afd;
+	private ImageView button;
 
 	@Override
 	protected void onCreate( Bundle savedInstanceState )
@@ -23,13 +25,12 @@ public class MainActivity extends Activity
 		setContentView( R.layout.activity_main );
 		
 		push = AnimationUtils.loadAnimation( this, R.anim.push );
+		button = (ImageView) findViewById( R.id.button );
 		
-		AssetFileDescriptor afd = null;
+		//AssetFileDescriptor afd = null;
 		try
 		{
 			afd = getAssets().openFd( "td4w.mp3" );
-			player = new MediaPlayer();
-			player.setDataSource( afd.getFileDescriptor() );
 		}
 		catch( IOException e )
 		{
@@ -44,18 +45,22 @@ public class MainActivity extends Activity
 	 */
 	public synchronized void PlayAudio( View view )
 	{	
-		ImageView button = (ImageView) view.findViewById( R.id.button );
+		//ImageView button = (ImageView) view.findViewById( R.id.button );
 		button.startAnimation( push );
 		
-		if( player.isPlaying() )
+		//we release the current player
+		if( player != null )
 		{
 			player.stop();
+			player.release();
 		}
 
+		//creating a new player seems to guarantee that each event creates a new play.
 		try
 		{
+			player = new MediaPlayer();
+			player.setDataSource( afd.getFileDescriptor() );
 			player.prepare();
-			player.seekTo( 0 );
 		}
 		catch( IllegalStateException e )
 		{
